@@ -1,28 +1,42 @@
-# JAX-RS Template Application
+# JAX-RS Bootstrap Template Application
 
-This is a template for a lightweight RESTful API using JAX-RS. The sample code is a call for getting the current time.
-    
-## Running the application locally
+The goal of this project is to provide a template for an enterprise level Java REST service or web project.
+It provides a more complete sample than most trivial sample apps and aims to provide a solid foundation for building,
+testing, deploying, extending, and modularizing.  The goal is to provide piecemeal loosely coupled web components to
+help build web services and applications while trying not to lock the developers into any specific vendors.  The project
+tries to use JSR specifications where possible and give developers flexibility in adding or removing most components.
+The JAVA JAX-RS Bootstrap uses the following technologies.
 
-First build with:
+* Maven for the build system.
+* JUnit for unit testing.
+* JAX-RS for rest services using the Jersey reference implementation.
+* Spring 3.1 with JSR-330 annotations for dependency injection.
+Spring was chosen over CDI for compatibility with common servlet containers such as Tomcat and Jetty without requiring the complexity of a heavyweight Java EE container.
+Using JSR-330 annotations provides a path forward to use CDI as it games adoption in your chosen container or migrating to Google Guice.
+* JPA for relational database interaction.
+* Spring Data JPA for simplfying the DAO persistence layer.
+* SLF4J for logging.
+* Shiro for security
+* Scalate for web templates.
 
-    $mvn clean install
+## Building
 
-Then run it with:
+    $mvn clean package
+
+## Running
+
+Windows:
 
     $ run.bat
+
+Linux:
+    $ run.sh
 
 Browse localhost:8080
 
 # Developers Guide:
 
-This project uses Spring 3.1 with JSR-330 annotations for dependency injection an spring-data-jpa for the persistence layer.
-We use an annotation and java file config for Spring configuration.
-We use SLF4J for logging.
-We use Maven 3 for our build system.
-We use Jax-rs Jersey for our webapp.
-
-We use a modular project design to split the project into multiple jars.  
+We use a modular project design to split the project into multiple jars.
 Model and persistence code goes into the model layer jar.
 Services, validation, buisiness logic, and UI go into the webapp jar.
 
@@ -30,7 +44,7 @@ To add a new model and service to the project:
 
 1.  Create a JPA @Entity _ModelName_ in com.bootstrap.models to define database schema.
 
-2.  Create a entity persistence interface that extendes BasePersistence<_ModelName_>.
+2.  Create a entity persistence interface that extends BasePersistence<_ModelName_>.
     Spring-data will automatically create an implementation of this interface.
     You can get spring-data to generate more CRUD methods by defining additional
     @Queries on you JPA model classes.  See spring-data docs for more information.
