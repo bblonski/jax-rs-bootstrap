@@ -1,24 +1,43 @@
-<!doctype html>
+<div class="container">
+    <div class="row">
+        <div class="span4 offset2">
+            <h1>Login</h1>
 
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>JAX-RS Bootstrap</title>
+            <form class="form-vertical row-fluid" id="login-form" action="/service/login" method="POST">
+                <label class="control-label" for="username">Username:</label>
+                <input id="username" name="username" type="text" value=""/>
+                <label for="pass">Password:</label>
+                <input id="pass" name="password" type="password" value=""/>
+                <p>
+                    <input class="btn btn-primary" type="submit" value="Login"/>
+                </p>
+            </form>
+        </div>
+        <div class="span4">
+            <h1>Register</h1>
+            <form id="register-form" class="form-vertical row-fluid" action="/service/user" method="POST">
+                <fieldset>
+                    <label class="control-label" for="first-name"><strong>First Name:</strong></label>
+                    <input id="first-name" name="firstName" type="text" value="">
 
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <label class="control-label" for="last-name"><strong>Last Name:</strong></label>
+                    <input id="last-name" name="lastName" type="text" value="">
 
-    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
-    <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
-    <link href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+                    <label class="control-label" for="email"><strong>Email:</strong></label>
+                    <input id="email" name="email" type="text" value="">
 
-</head>
-<body>
-    <form action="/service/login" method="POST">
-        <label for="username">Username:</label>
-        <input id="username" name="username" type="text" value=""/>
-        <label for="password">Password:</label>
-        <input id="password" name="password" type="password" value=""/>
-        <input type="submit" value="Login"/>
-    </form>
-</body>
+                    <label class="control-label" for="password"><strong>Password:</strong></label>
+                    <input id="password" name="password" type="password" value=""/>
+
+                    <p>
+                        <button type="submit" class="btn btn-primary"/>
+                        Create
+                        </button>
+                    </p>
+                </fieldset>
+            </form>
+            <div id="result"></div>
+        </div>
+    </div>
+</div>
+
