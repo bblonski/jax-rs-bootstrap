@@ -4,26 +4,14 @@ import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
 import org.junit.Test;
 
-import javax.inject.Inject;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for the UserService.
  */
 public class UserPersistenceTest extends BasePersistenceTest {
 
-    @Inject
-    UserPersistence userPersistence;
-
-    public UserPersistence getUserPersistence() {
-        return userPersistence;
-    }
-
-    public void setUserPersistence(UserPersistence userPersistence) {
-        this.userPersistence = userPersistence;
-    }
+    UserPersistence userPersistence = config.createUserPersistence(factory);
 
     @Test
     public void testCreateUser() {
@@ -36,6 +24,11 @@ public class UserPersistenceTest extends BasePersistenceTest {
         assertEquals("testuser@email.com", user.getEmail());
         assertEquals(1, user.getId());
         assertEquals(user, userPersistence.findByEmail("testuser@email.com"));
+    }
+
+    @Test
+    public void testUserExists() {
+        assertEquals("user not persisted.", 1, userPersistence.findAll().size());
     }
 
 }

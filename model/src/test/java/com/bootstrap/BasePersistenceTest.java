@@ -1,14 +1,33 @@
 package com.bootstrap;
 
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.junit.BeforeClass;
+import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
+
+import javax.persistence.EntityManager;
 
 /**
  * Base service unit test.  Specifies test database configuration and common service test functionality.  Service test
  * classes should extend this class.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes ={PersistenceConfig.class} )
 public abstract class BasePersistenceTest {
+    protected static PersistenceConfig config;
+    protected static EntityManager em;
+    protected static JpaRepositoryFactory factory;
+
+    @BeforeClass
+    public static void setupTransaction() {
+        config = new PersistenceConfig();
+        em = config.getEm();
+        factory = config.getRepositoryFactory(em, config.transactionManager(em.getEntityManagerFactory()));
+    }
+
+//    @Before
+//    public void beginTransaction() {
+//        em.getTransaction().begin();
+//    }
+//
+//    @After
+//    public void teardownTransaction() {
+//        em.getTransaction().rollback();
+//    }
 }
