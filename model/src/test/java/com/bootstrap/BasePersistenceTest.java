@@ -1,5 +1,7 @@
 package com.bootstrap;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 
@@ -21,13 +23,13 @@ public abstract class BasePersistenceTest {
         factory = config.getRepositoryFactory(em, config.transactionManager(em.getEntityManagerFactory()));
     }
 
-//    @Before
-//    public void beginTransaction() {
-//        em.getTransaction().begin();
-//    }
-//
-//    @After
-//    public void teardownTransaction() {
-//        em.getTransaction().rollback();
-//    }
+    @Before
+    public void beginTransaction() {
+        em.getTransaction().begin();
+    }
+
+    @After
+    public void teardownTransaction() {
+        em.getTransaction().rollback();
+    }
 }

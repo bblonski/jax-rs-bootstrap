@@ -28,7 +28,8 @@ public class UserPersistenceTest extends BasePersistenceTest {
 
     @Test
     public void testUserExists() {
-        assertEquals("user not persisted.", 1, userPersistence.findAll().size());
+        // Does not save database from previous tests
+        assertEquals("user not persisted.", 0, userPersistence.findAll().size());
     }
 
 }
