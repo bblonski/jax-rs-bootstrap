@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
 public class LoginService {
 
     @Inject
-    UserPersistence userPersistence;
+    private UserPersistence userPersistence;
 
     @POST
     public Response login(@FormParam("username") String username,
@@ -31,10 +31,5 @@ public class LoginService {
 //            user.login(token);
 //        }
         return Response.ok().build();
-    }
-
-    @GET
-    public String hello() {
-        return "hello";
     }
 }

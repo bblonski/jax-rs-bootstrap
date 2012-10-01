@@ -1,4 +1,7 @@
-package com.bootstrap;
+package com.bootstrap.interceptor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
@@ -12,17 +15,18 @@ import javax.persistence.EntityTransaction;
  */
 @Transaction @Interceptor
 public class TransactionInterceptor {
+    private static final Logger log = LoggerFactory.getLogger(TransactionInterceptor.class);
 
     @Inject
-    EntityManager em;
+    private EntityManager em;
 
     @AroundInvoke
     public Object manageTransaction(InvocationContext context) throws Exception {
         EntityTransaction tx = em.getTransaction();
-        System.out.println("starting tx");
+        log.trace("Starting Transaction");
         tx.begin();
         Object result = context.proceed();
-        System.out.println("stopping tx");
+        log.trace("Committing Transaction");
         tx.commit();
         return result;
     }

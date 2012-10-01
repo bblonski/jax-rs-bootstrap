@@ -1,4 +1,4 @@
-package com.bootstrap;
+package com.bootstrap.interceptor;
 
 import java.lang.annotation.*;
 

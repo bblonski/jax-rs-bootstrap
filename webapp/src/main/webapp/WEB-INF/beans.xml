@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
                            http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
     <interceptors>
-        <class>com.bootstrap.SecuredInterceptor</class>
-        <class>com.bootstrap.TransactionInterceptor</class>
+        <class>com.bootstrap.interceptor.SecuredInterceptor</class>
+        <class>com.bootstrap.interceptor.TransactionInterceptor</class>
     </interceptors>
 </beans>

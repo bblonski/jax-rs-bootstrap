@@ -1,8 +1,8 @@
 package com.bootstrap.service;
 
-import com.bootstrap.NamedResource;
-import com.bootstrap.Secured;
-import com.bootstrap.Transaction;
+import com.bootstrap.interceptor.NamedResource;
+import com.bootstrap.interceptor.Secured;
+import com.bootstrap.interceptor.Transaction;
 import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
 import org.slf4j.Logger;
@@ -40,7 +40,6 @@ public class UserService extends BaseService {
 
     @GET
     public List<User> getUser() {
-//        validateUser();
         return userPersistence.findAll();
     }
 
@@ -53,20 +52,5 @@ public class UserService extends BaseService {
         log.debug("Saving user {}", user);
         return user;
     }
-
-//    private void validateUser() {
-//        try {
-//            Subject user = SecurityUtils.getSubject();
-//            if (!user.isAuthenticated()) {
-//                String username = headers.getRequestHeader("username").get(0);
-//                String password = headers.getRequestHeader("password").get(0);
-//                UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-//                token.setRememberMe(true);
-//                user.login(token);
-//            }
-//        } catch (Exception e) {
-//            throw new WebApplicationException(Response.Status.FORBIDDEN);
-//        }
-//    }
 
 }

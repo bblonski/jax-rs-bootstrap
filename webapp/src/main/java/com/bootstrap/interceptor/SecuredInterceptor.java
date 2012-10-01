@@ -1,4 +1,4 @@
-package com.bootstrap;
+package com.bootstrap.interceptor;
 
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
@@ -15,11 +15,12 @@ import javax.interceptor.InvocationContext;
 @Secured
 @Interceptor
 public class SecuredInterceptor {
+    private static final Logger logger = LoggerFactory.getLogger(SecuredInterceptor.class);
+
     @Inject
-    Subject subject;
+    private Subject subject;
     @Inject
-    org.apache.shiro.mgt.SecurityManager securityManager;
-    Logger logger = LoggerFactory.getLogger(SecuredInterceptor.class);
+    private org.apache.shiro.mgt.SecurityManager securityManager;
 
     @AroundInvoke
     public Object interceptSecure(InvocationContext ctx) throws Exception {
