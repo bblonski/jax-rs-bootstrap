@@ -1,5 +1,6 @@
 package com.bootstrap.service;
 
+import com.bootstrap.Transaction;
 import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
 import org.slf4j.Logger;
@@ -8,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -30,8 +30,6 @@ public class UserService extends BaseService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Inject
-    private EntityManager em;
-    @Inject
     private UserPersistence userPersistence;
     @Context
     private HttpHeaders headers;
@@ -43,12 +41,11 @@ public class UserService extends BaseService {
     }
 
     @POST
+    @Transaction
     public User post(@FormParam("firstName") String fistName, @FormParam("lastName") String lastName,
                      @FormParam("email") String email, @FormParam("password") String password) {
         User user = new User(fistName, lastName, email, password);
-        em.getTransaction().begin();
         user = userPersistence.saveAndFlush(user);
-        em.getTransaction().commit();
         log.debug("Saving user {}", user);
         return user;
     }
