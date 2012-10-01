@@ -1,5 +1,7 @@
 package com.bootstrap.service;
 
+import com.bootstrap.NamedResource;
+import com.bootstrap.Secured;
 import com.bootstrap.Transaction;
 import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
@@ -26,6 +28,8 @@ import java.util.List;
 @Path("/service/user")
 @RequestScoped
 @Named
+@Secured
+@NamedResource("user")
 public class UserService extends BaseService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
@@ -35,7 +39,7 @@ public class UserService extends BaseService {
     private HttpHeaders headers;
 
     @GET
-    public List<User> get() {
+    public List<User> getUser() {
 //        validateUser();
         return userPersistence.findAll();
     }
