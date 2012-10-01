@@ -2,18 +2,19 @@ package com.bootstrap.service;
 
 import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.*;
+import javax.persistence.EntityManager;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -23,22 +24,21 @@ import java.util.List;
  */
 
 @Path("/service/user")
+@RequestScoped
 @Named
 public class UserService extends BaseService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
+    @Inject
+    private EntityManager em;
+    @Inject
     private UserPersistence userPersistence;
     @Context
-    HttpHeaders headers;
-
-    @Inject
-    public UserService(UserPersistence userPersistence) {
-        this.userPersistence = userPersistence;
-    }
+    private HttpHeaders headers;
 
     @GET
     public List<User> get() {
-        validateUser();
+//        validateUser();
         return userPersistence.findAll();
     }
 
@@ -46,31 +46,26 @@ public class UserService extends BaseService {
     public User post(@FormParam("firstName") String fistName, @FormParam("lastName") String lastName,
                      @FormParam("email") String email, @FormParam("password") String password) {
         User user = new User(fistName, lastName, email, password);
+        em.getTransaction().begin();
         user = userPersistence.saveAndFlush(user);
+        em.getTransaction().commit();
         log.debug("Saving user {}", user);
         return user;
     }
 
-    private void validateUser() {
-        try {
-            Subject user = SecurityUtils.getSubject();
-            if (!user.isAuthenticated()) {
-                String username = headers.getRequestHeader("username").get(0);
-                String password = headers.getRequestHeader("password").get(0);
-                UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-                token.setRememberMe(true);
-                user.login(token);
-            }
-        } catch (Exception e) {
-            throw new WebApplicationException(Response.Status.FORBIDDEN);
-        }
-    }
+//    private void validateUser() {
+//        try {
+//            Subject user = SecurityUtils.getSubject();
+//            if (!user.isAuthenticated()) {
+//                String username = headers.getRequestHeader("username").get(0);
+//                String password = headers.getRequestHeader("password").get(0);
+//                UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+//                token.setRememberMe(true);
+//                user.login(token);
+//            }
+//        } catch (Exception e) {
+//            throw new WebApplicationException(Response.Status.FORBIDDEN);
+//        }
+//    }
 
-    public UserPersistence getUserPersistence() {
-        return userPersistence;
-    }
-
-    public void setUserPersistence(UserPersistence userPersistence) {
-        this.userPersistence = userPersistence;
-    }
 }

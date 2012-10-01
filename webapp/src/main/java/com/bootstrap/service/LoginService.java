@@ -1,14 +1,11 @@
 package com.bootstrap.service;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
+import com.bootstrap.persistence.UserPersistence;
 
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -18,17 +15,26 @@ import javax.ws.rs.core.Response;
 @Path("/service/login")
 @Produces(MediaType.APPLICATION_JSON)
 @Named
+@RequestScoped
 public class LoginService {
+
+    @Inject
+    UserPersistence userPersistence;
 
     @POST
     public Response login(@FormParam("username") String username,
                       @FormParam("password") String password) {
-        Subject user = SecurityUtils.getSubject();
-        if(!user.isAuthenticated()) {
-            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-            token.setRememberMe(true);
-            user.login(token);
-        }
+//        Subject user = SecurityUtils.getSubject();
+//        if(!user.isAuthenticated()) {
+//            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+//            token.setRememberMe(true);
+//            user.login(token);
+//        }
         return Response.ok().build();
+    }
+
+    @GET
+    public String hello() {
+        return "hello";
     }
 }

@@ -25,8 +25,7 @@ import javax.persistence.Persistence;
 @Named
 public class PersistenceConfig {
 
-    @Produces
-    UserPersistence createUserPersistence(JpaRepositoryFactory factory) {
+    public UserPersistence createUserPersistence(JpaRepositoryFactory factory) {
         return factory.getRepository(UserPersistence.class);
     }
 
