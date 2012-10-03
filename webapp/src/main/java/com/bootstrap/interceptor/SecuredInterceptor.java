@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
 
 /**
  * @author bblonski
@@ -59,7 +61,7 @@ public class SecuredInterceptor {
             subject.checkPermission(permission);
         } catch (Exception e) {
             logger.error("Access denied - {}: {}", e.getClass().getName(), e.getMessage());
-            throw e;
+            throw new WebApplicationException(Response.status(Response.Status.FORBIDDEN).build());
         }
         return ctx.proceed();
     }

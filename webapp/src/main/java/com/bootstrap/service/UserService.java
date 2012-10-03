@@ -28,17 +28,15 @@ import java.util.List;
 @Path("/service/user")
 @RequestScoped
 @Named
-@Secured
 @NamedResource("user")
 public class UserService extends BaseService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Inject
     private UserPersistence userPersistence;
-    @Context
-    private HttpHeaders headers;
 
     @GET
+    @Secured
     public List<User> getUser() {
         return userPersistence.findAll();
     }
@@ -52,5 +50,4 @@ public class UserService extends BaseService {
         log.debug("Saving user {}", user);
         return user;
     }
-
 }

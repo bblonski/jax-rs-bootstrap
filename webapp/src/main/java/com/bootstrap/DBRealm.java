@@ -20,21 +20,24 @@ import javax.inject.Named;
 public class DBRealm extends AuthorizingRealm {
     private static Logger log = LoggerFactory.getLogger(DBRealm.class);
 
-    UserPersistence userPersistence;
+    @Inject
+    private UserPersistence userPersistence;
 
     @Inject
-    public DBRealm(UserPersistence userPersistence) {
+    public DBRealm() {
+        PersistenceConfig config = new PersistenceConfig();
+        userPersistence = config.createUserPersistence(config.getRepositoryFactory(config.getEm(), config.transactionManager(config.getEm().getEntityManagerFactory())));
         setName("DBRealm");
-        this.userPersistence = userPersistence;
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         Long userId = (Long) principalCollection.fromRealm(getName()).iterator().next();
         User user = userPersistence.findOne(userId);
-        if(user == null)
+        if (user == null)
             return null;
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        info.addStringPermission("view:user");
         return info;
     }
 
@@ -42,7 +45,7 @@ public class DBRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         User user = userPersistence.findByEmail(token.getUsername());
-        if(user != null) {
+        if (user != null) {
             return new SimpleAuthenticationInfo(user.getId(), user.getPassword(), getName());
         }
         return null;

@@ -1,6 +1,8 @@
 package com.bootstrap.service;
 
 import com.bootstrap.persistence.UserPersistence;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -20,16 +22,17 @@ public class LoginService {
 
     @Inject
     private UserPersistence userPersistence;
+    @Inject
+    private Subject subject;
 
     @POST
     public Response login(@FormParam("username") String username,
                       @FormParam("password") String password) {
-//        Subject user = SecurityUtils.getSubject();
-//        if(!user.isAuthenticated()) {
-//            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-//            token.setRememberMe(true);
-//            user.login(token);
-//        }
+        if(!subject.isAuthenticated()) {
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+            token.setRememberMe(true);
+            subject.login(token);
+        }
         return Response.ok().build();
     }
 }
