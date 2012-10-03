@@ -86,28 +86,6 @@
                             onclick="sendGetRequest('/service/user'); return false;">
                         Get All
                     </button>
-                    <form id="user-form" class="form-vertical" class="row-fluid">
-                        <fieldset>
-                            <label class="control-label" for="first-name"><strong>First Name:</strong></label>
-                            <input id="first-name" name="firstName" type="text" value="">
-
-                            <label class="control-label" for="last-name"><strong>Last Name:</strong></label>
-                            <input id="last-name" name="lastName" type="text" value="">
-
-                            <label class="control-label" for="email"><strong>Email:</strong></label>
-                            <input id="email" name="email" type="text" value="">
-
-                            <label class="control-label" for="password"><strong>Password:</strong></label>
-                            <input id="password" name="password" type="password" value=""/>
-
-                            <p>
-                                <button type="submit" class="btn btn-primary"
-                                        onclick="sendPostRequest('/service/user', $('#user-form').serialize()); return false;">
-                                    Create
-                                </button>
-                            </p>
-                        </fieldset>
-                    </form>
                 </div>
             </div>
             <div id="rest-result-container" class="row hide">
