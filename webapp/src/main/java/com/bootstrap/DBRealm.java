@@ -26,7 +26,7 @@ public class DBRealm extends AuthorizingRealm {
     @Inject
     public DBRealm() {
         PersistenceConfig config = new PersistenceConfig();
-        userPersistence = config.createUserPersistence(config.getRepositoryFactory(config.getEm(), config.transactionManager(config.getEm().getEntityManagerFactory())));
+        userPersistence = config.createUserPersistence(config.getRepositoryFactory(config.getEm()));
         setName("DBRealm");
     }
 

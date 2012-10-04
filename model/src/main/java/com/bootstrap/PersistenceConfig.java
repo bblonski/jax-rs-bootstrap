@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.AnnotationTransactionAttribute
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -30,8 +31,13 @@ public class PersistenceConfig {
     }
 
     @Produces
+    @ApplicationScoped
     public EntityManagerFactory getEntityManagerFactory(EntityManager em) {
         return em.getEntityManagerFactory();
+    }
+
+    public void closeEntityManagerFactory(@Disposes EntityManagerFactory factory) {
+        factory.close();
     }
 
     @Produces
@@ -40,31 +46,13 @@ public class PersistenceConfig {
         return Persistence.createEntityManagerFactory("mem").createEntityManager();
     }
 
-    @Produces
-    public HibernateExceptionTranslator getPersistenceExceptionTranslationPostProcessor() {
-        return new HibernateExceptionTranslator();
+    public void closeEm(@Disposes EntityManager em) {
+        em.close();
     }
 
     @Produces
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
-        return new JpaTransactionManager(emf);
-    }
-
-    @Produces
-    public JpaRepositoryFactory getRepositoryFactory(EntityManager em, final PlatformTransactionManager xact) {
+    public JpaRepositoryFactory getRepositoryFactory(EntityManager em) {
         JpaRepositoryFactory factory = new JpaRepositoryFactory(em);
-        factory.addRepositoryProxyPostProcessor(new RepositoryProxyPostProcessor() {
-            @Override
-            public void postProcess(ProxyFactory proxyFactory) {
-                proxyFactory.addAdvice(new TransactionInterceptor(xact, new AnnotationTransactionAttributeSource()));
-            }
-        });
         return factory;
     }
-
-    @Produces
-    public PersistenceAnnotationBeanPostProcessor persistenceAnnotationBeanPostProcessor() {
-        return new PersistenceAnnotationBeanPostProcessor();
-    }
-
 }

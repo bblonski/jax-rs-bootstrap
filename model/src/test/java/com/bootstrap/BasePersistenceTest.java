@@ -20,7 +20,7 @@ public abstract class BasePersistenceTest {
     public static void setupTransaction() {
         config = new PersistenceConfig();
         em = config.getEm();
-        factory = config.getRepositoryFactory(em, config.transactionManager(em.getEntityManagerFactory()));
+        factory = config.getRepositoryFactory(em);
     }
 
     @Before
