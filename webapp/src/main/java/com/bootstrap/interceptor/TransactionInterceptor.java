@@ -32,7 +32,8 @@ public class TransactionInterceptor {
             return result;
         }catch (Exception e) {
             tx.rollback();
+            log.error("Transaction failed.  Rolling back.");
+            throw e;
         }
-        return null;
     }
 }
