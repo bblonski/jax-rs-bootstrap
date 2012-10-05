@@ -25,9 +25,14 @@ public class TransactionInterceptor {
         EntityTransaction tx = em.getTransaction();
         log.trace("Starting Transaction");
         tx.begin();
-        Object result = context.proceed();
-        log.trace("Committing Transaction");
-        tx.commit();
-        return result;
+        try {
+            Object result = context.proceed();
+            log.trace("Committing Transaction");
+            tx.commit();
+            return result;
+        }catch (Exception e) {
+            tx.rollback();
+        }
+        return null;
     }
 }
