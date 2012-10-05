@@ -3,6 +3,9 @@ package com.bootstrap.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 
 /**
  * User data model.
@@ -19,6 +22,8 @@ public class User extends BaseModel {
     private String lastName;
     @Column(nullable = false)
     private String password;
+    @Column(nullable = false)
+    private byte[] salt;
 
     public User(String firstName, String lastName, String email, String password) {
         setFirstName(firstName);
@@ -60,6 +65,14 @@ public class User extends BaseModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public byte[] getSalt() {
+        return salt;
+    }
+
+    public void setSalt(byte[] salt) {
+        this.salt = salt;
     }
 
     public String toString() {

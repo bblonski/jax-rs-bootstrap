@@ -5,6 +5,10 @@ import com.bootstrap.interceptor.Secured;
 import com.bootstrap.interceptor.Transaction;
 import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
+import org.apache.shiro.crypto.RandomNumberGenerator;
+import org.apache.shiro.crypto.SecureRandomNumberGenerator;
+import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +49,11 @@ public class UserService extends BaseService {
     @Transaction
     public User post(@FormParam("firstName") String fistName, @FormParam("lastName") String lastName,
                      @FormParam("email") String email, @FormParam("password") String password) {
-        User user = new User(fistName, lastName, email, password);
+        RandomNumberGenerator rng = new SecureRandomNumberGenerator();
+        ByteSource salt = rng.nextBytes();
+        String hashedPasswordBase64 = new Sha256Hash(password, salt.getBytes(), 1024).toBase64();
+        User user = new User(fistName, lastName, email, hashedPasswordBase64);
+        user.setSalt(salt.getBytes());
         user = userPersistence.saveAndFlush(user);
         log.debug("Saving user {}", user);
         return user;

@@ -16,6 +16,7 @@ public class UserPersistenceTest extends BasePersistenceTest {
     @Test
     public void testCreateUser() {
         User user = new User("Test", "User", "testuser@email.com", "testPassword");
+        user.setSalt(new byte[]{1,2,3,4});
         user = userPersistence.save(user);
         assertNotNull(user);
         assertEquals("Test", user.getFirstName());
