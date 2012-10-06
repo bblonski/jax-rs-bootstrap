@@ -10,9 +10,7 @@ The JAVA JAX-RS Bootstrap uses the following technologies.
 * Maven for the build system.
 * JUnit for unit testing.
 * JAX-RS for rest services using the Jersey reference implementation.
-* Spring 3.1 with JSR-330 annotations for dependency injection.
-Spring was chosen over CDI for compatibility with common servlet containers such as Tomcat and Jetty without requiring the complexity of a heavyweight Java EE container.
-Using JSR-330 annotations provides a path forward to use CDI as it games adoption in your chosen container or migrating to Google Guice.
+* CDI with Weld for dependency injection.
 * JPA for relational database interaction.
 * Spring Data JPA for simplfying the DAO persistence layer.
 * SLF4J for logging.
