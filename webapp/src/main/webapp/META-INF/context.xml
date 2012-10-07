@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/"/>
+<Context path="/">
+    <Resource name="jdbc/DefaultDS" auth="Container"
+              type="javax.sql.DataSource" username="" password=""
+              driverClassName="org.h2.Driver"
+              url="jdbc:h2:mem:test;"
+              dialect="org.hibernate.dialect.H2Dialect"
+              maxActive="8"
+            />
+</Context>

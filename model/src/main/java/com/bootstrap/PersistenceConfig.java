@@ -1,23 +1,25 @@
 package com.bootstrap;
 
 import com.bootstrap.persistence.UserPersistence;
-import org.springframework.aop.framework.ProxyFactory;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
-import org.springframework.data.repository.core.support.RepositoryProxyPostProcessor;
-import org.springframework.orm.hibernate3.HibernateExceptionTranslator;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
-import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+import javax.annotation.Resource;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Spring Configuration for webapp persistence context.  This file defines all the
@@ -25,6 +27,7 @@ import javax.persistence.Persistence;
  */
 @Named
 public class PersistenceConfig {
+    private Logger log = LoggerFactory.getLogger(PersistenceConfig.class);
 
     public UserPersistence createUserPersistence(JpaRepositoryFactory factory) {
         return factory.getRepository(UserPersistence.class);
@@ -43,7 +46,23 @@ public class PersistenceConfig {
     @Produces
     @ApplicationScoped
     public EntityManager getEm() {
-        return Persistence.createEntityManagerFactory("mem").createEntityManager();
+        Map<String, String> properties = new HashMap<String, String>();
+        try {
+            PropertiesConfiguration config = new PropertiesConfiguration("db.properties");
+            Iterator<String> keys = config.getKeys();
+            for (Iterator<String> i = config.getKeys(); i.hasNext(); ) {
+                String key = i.next();
+                properties.put(key, config.getString(key));
+            }
+        } catch (ConfigurationException e) {
+            log.warn("No db.properties file found, using in-memory database", e);
+            properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+            properties.put("hibernate.connection.url", "jdbc:h2:mem:test;");
+            properties.put("hibernate.connection.driver_class", "org.h2.Driver");
+            properties.put("hibernate.connection.username", "");
+            properties.put("hibernate.connection.password", "");
+        }
+        return Persistence.createEntityManagerFactory("mem", properties).createEntityManager();
     }
 
     public void closeEm(@Disposes EntityManager em) {
