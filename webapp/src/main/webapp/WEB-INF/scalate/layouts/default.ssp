@@ -1,6 +1,7 @@
 <%@ var title: String = "Jax-RS Bootstrap"%>
 <%@ var head: String = "" %>
 <%@ var body: String %>
+#import(org.apache.shiro.SecurityUtils)
 <!doctype html>
 
 <html>
@@ -31,15 +32,29 @@
     <div class="navbar-inner">
         <div class="container">
             <a href="/" class="brand">JAX-RS Service API</a>
-            <ul class="nav">
-                <li><a href="/login">Login</a></li>
+            <ul class="nav pull-right">
+                <li>
+                    <a href="/login">Register</a>
+                </li>
+                #{if(!SecurityUtils.getSubject().isAuthenticated()) {
+                System.out.println(SecurityUtils.getSubject());
+                }#
+                <li>
+                    <form id="login-form" class="navbar-form" action="/service/login" method="POST">
+                        <input class="input-small" name="username" placeholder="Email" value="" type="text"/>
+                        <input class="input-small" name="password" placeholder="Password" value="" type="text"/>
+                        <input id="login-submit" class="btn btn-primary" type="submit" value="Login"/>
+                    </form>
+                </li>
+                #{ }else{ }#
                 <li><a id="logout-submit" href="/service/logout">Logout</a></li>
+                #{ } }#
             </ul>
         </div>
     </div>
 </div>
 
-${unescape(body)}
+    ${unescape(body)}
 
 </body>
 </html>

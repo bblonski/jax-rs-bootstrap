@@ -7,10 +7,12 @@ import org.apache.shiro.subject.Subject;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.*;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URISyntaxException;
 
 /**
  * @author bblonski
@@ -29,8 +31,8 @@ public class LoginService {
     @POST
     @Path("/login")
     public Response login(@FormParam("username") String username,
-                      @FormParam("password") String password) throws URISyntaxException {
-        if(!subject.isAuthenticated()) {
+                          @FormParam("password") String password) {
+        if (!subject.isAuthenticated()) {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             token.setRememberMe(true);
             try {

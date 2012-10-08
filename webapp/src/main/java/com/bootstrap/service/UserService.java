@@ -19,8 +19,7 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
+import java.net.URISyntaxException;
 import java.util.List;
 
 /**
@@ -48,7 +47,7 @@ public class UserService extends BaseService {
     @POST
     @Transaction
     public User post(@FormParam("firstName") String fistName, @FormParam("lastName") String lastName,
-                     @FormParam("email") String email, @FormParam("password") String password) {
+                     @FormParam("email") String email, @FormParam("password") String password) throws URISyntaxException {
         RandomNumberGenerator rng = new SecureRandomNumberGenerator();
         ByteSource salt = rng.nextBytes();
         String hashedPasswordBase64 = new Sha256Hash(password, salt.getBytes(), 1024).toBase64();
