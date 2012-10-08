@@ -9,7 +9,7 @@
                 <label for="pass">Password:</label>
                 <input id="pass" name="password" type="password" value=""/>
                 <p>
-                    <input class="btn btn-primary" type="submit" value="Login"/>
+                    <input id="login-submit" class="btn btn-primary" type="submit" value="Login"/>
                 </p>
             </form>
         </div>

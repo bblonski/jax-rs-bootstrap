@@ -10,11 +10,12 @@ import javax.inject.Named;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.URISyntaxException;
 
 /**
  * @author bblonski
  */
-@Path("/service/login")
+@Path("/service")
 @Produces(MediaType.APPLICATION_JSON)
 @Named
 @RequestScoped
@@ -26,13 +27,26 @@ public class LoginService {
     private Subject subject;
 
     @POST
+    @Path("/login")
     public Response login(@FormParam("username") String username,
-                      @FormParam("password") String password) {
+                      @FormParam("password") String password) throws URISyntaxException {
         if(!subject.isAuthenticated()) {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             token.setRememberMe(true);
-            subject.login(token);
+            try {
+                subject.login(token);
+            } catch (Exception e) {
+                return Response.status(Response.Status.FORBIDDEN).build();
+            }
         }
         return Response.ok().build();
     }
+
+    @GET
+    @Path("/logout")
+    public Response logout() {
+        subject.logout();
+        return Response.ok().build();
+    }
+
 }
