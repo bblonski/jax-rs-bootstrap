@@ -3,18 +3,20 @@
         <div class="span4 offset2">
             <h1>Login</h1>
 
-            <form class="form-vertical row-fluid" id="login-form" action="/service/login" method="POST">
+            <form id="login-form-nav" class="form-vertical row-fluid" action="/service/login" method="POST">
                 <label class="control-label" for="username">Username:</label>
                 <input id="username" name="username" type="text" value=""/>
                 <label for="pass">Password:</label>
                 <input id="pass" name="password" type="password" value=""/>
+
                 <p>
-                    <input id="login-submit" class="btn btn-primary" type="submit" value="Login"/>
+                    <input class="btn btn-primary login-submit" type="submit" value="Login"/>
                 </p>
             </form>
         </div>
         <div class="span4">
             <h1>Register</h1>
+
             <form id="register-form" class="form-vertical row-fluid" action="/service/user" method="POST">
                 <fieldset>
                     <label class="control-label" for="first-name"><strong>First Name:</strong></label>
