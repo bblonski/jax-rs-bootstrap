@@ -5,4 +5,10 @@ $(function() {
             window.location = '/';
         });
     });
+    $("#logout-submit").click(function(event) {
+        event.preventDefault();
+        $.post('/service/logout', function(data) {
+            window.location = '/';
+        });
+    });
 });

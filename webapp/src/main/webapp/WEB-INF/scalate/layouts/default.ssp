@@ -33,7 +33,7 @@
             <a href="/" class="brand">JAX-RS Service API</a>
             <ul class="nav">
                 <li><a href="/login">Login</a></li>
-                <li><a href="/service/logout">Logout</a></li>
+                <li><a id="logout-submit" href="/service/logout">Logout</a></li>
             </ul>
         </div>
     </div>

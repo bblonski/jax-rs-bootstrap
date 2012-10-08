@@ -42,7 +42,7 @@ public class LoginService {
         return Response.ok().build();
     }
 
-    @GET
+    @POST
     @Path("/logout")
     public Response logout() {
         subject.logout();
