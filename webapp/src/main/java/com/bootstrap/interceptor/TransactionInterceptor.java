@@ -23,11 +23,15 @@ public class TransactionInterceptor {
     @AroundInvoke
     public Object manageTransaction(InvocationContext context) throws Exception {
         EntityTransaction tx = em.getTransaction();
-        log.trace("Starting Transaction");
-        tx.begin();
+        log.trace("Starting Transaction.");
+        if(!tx.isActive()) {
+            tx.begin();
+        }else{
+            log.trace("Transaction already in progress.");
+        }
         try {
             Object result = context.proceed();
-            log.trace("Committing Transaction");
+            log.trace("Committing Transaction.");
             tx.commit();
             return result;
         }catch (Exception e) {
