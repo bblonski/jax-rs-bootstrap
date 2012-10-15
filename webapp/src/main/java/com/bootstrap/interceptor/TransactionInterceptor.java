@@ -15,8 +15,8 @@ import javax.persistence.EntityTransaction;
  */
 @Transaction @Interceptor
 public class TransactionInterceptor {
-    private static final Logger log = LoggerFactory.getLogger(TransactionInterceptor.class);
-
+    @Inject
+    private Logger log;
     @Inject
     private EntityManager em;
 

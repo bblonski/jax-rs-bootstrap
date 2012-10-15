@@ -33,8 +33,8 @@ import java.util.List;
 @Named
 @NamedResource("user")
 public class UserService extends BaseService {
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
-
+    @Inject
+    private Logger log;
     @Inject
     private UserPersistence userPersistence;
     @Inject

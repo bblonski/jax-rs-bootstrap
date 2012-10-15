@@ -21,8 +21,8 @@ import javax.inject.Named;
  */
 @Named("myRealm")
 public class DBRealm extends AuthorizingRealm {
-    private static Logger log = LoggerFactory.getLogger(DBRealm.class);
-
+    @Inject
+    private Logger log;
     @Inject
     private UserPersistence userPersistence;
 

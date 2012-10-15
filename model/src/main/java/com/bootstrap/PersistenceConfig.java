@@ -12,6 +12,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
@@ -27,7 +28,7 @@ import java.util.Map;
  */
 @Named
 public class PersistenceConfig {
-    private Logger log = LoggerFactory.getLogger(PersistenceConfig.class);
+    private static final Logger log = LoggerFactory.getLogger(PersistenceConfig.class);
 
     public UserPersistence createUserPersistence(JpaRepositoryFactory factory) {
         return factory.getRepository(UserPersistence.class);
@@ -73,5 +74,10 @@ public class PersistenceConfig {
     public JpaRepositoryFactory getRepositoryFactory(EntityManager em) {
         JpaRepositoryFactory factory = new JpaRepositoryFactory(em);
         return factory;
+    }
+
+    @Produces
+    public Logger getLogger(InjectionPoint ic) {
+        return LoggerFactory.getLogger(ic.getMember().getDeclaringClass());
     }
 }

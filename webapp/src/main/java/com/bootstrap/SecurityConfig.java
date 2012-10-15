@@ -3,8 +3,11 @@ package com.bootstrap;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.DefaultSecurityManager;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.inject.Produces;
+import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Singleton;
 
 /**
@@ -20,7 +23,7 @@ public class SecurityConfig {
     }
 
     @Produces
-    public org.apache.shiro.mgt.DefaultSecurityManager getSecurityManager(DBRealm realm) {
+    public DefaultSecurityManager getSecurityManager(DBRealm realm) {
         DefaultSecurityManager securityManager = (DefaultSecurityManager) SecurityUtils.getSecurityManager();
         securityManager.setRealm(realm);
         return securityManager;
