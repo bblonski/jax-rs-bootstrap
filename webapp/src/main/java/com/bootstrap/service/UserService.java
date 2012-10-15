@@ -37,6 +37,8 @@ public class UserService extends BaseService {
 
     @Inject
     private UserPersistence userPersistence;
+    @Inject
+    private LoginService loginService;
 
     @GET
     @Secured
@@ -55,6 +57,7 @@ public class UserService extends BaseService {
         user.setSalt(salt.getBytes());
         user = userPersistence.saveAndFlush(user);
         log.debug("Saving user {}", user);
+        loginService.login(email, password);
         return user;
     }
 }
