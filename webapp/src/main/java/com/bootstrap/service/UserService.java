@@ -5,6 +5,7 @@ import com.bootstrap.interceptor.Secured;
 import com.bootstrap.interceptor.Transaction;
 import com.bootstrap.models.User;
 import com.bootstrap.persistence.UserPersistence;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -42,6 +43,7 @@ public class UserService extends BaseService {
 
     @GET
     @Secured
+    @RequiresPermissions({"view:user"})
     public List<User> getUser() {
         return userPersistence.findAll();
     }
