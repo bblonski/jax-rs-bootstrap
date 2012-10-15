@@ -21,8 +21,6 @@ public class SecuredInterceptor {
 
     @Inject
     private Subject subject;
-    @Inject
-    private org.apache.shiro.mgt.SecurityManager securityManager;
 
     @AroundInvoke
     public Object interceptSecure(InvocationContext ctx) throws Exception {

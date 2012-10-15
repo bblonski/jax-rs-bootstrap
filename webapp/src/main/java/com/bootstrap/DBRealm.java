@@ -19,7 +19,7 @@ import javax.inject.Named;
 /**
  * @author bblonski
  */
-@Named
+@Named("myRealm")
 public class DBRealm extends AuthorizingRealm {
     private static Logger log = LoggerFactory.getLogger(DBRealm.class);
 
@@ -28,8 +28,6 @@ public class DBRealm extends AuthorizingRealm {
 
     @Inject
     public DBRealm() {
-        PersistenceConfig config = new PersistenceConfig();
-        userPersistence = config.createUserPersistence(config.getRepositoryFactory(config.getEm()));
         setName("DBRealm");
         CredentialsMatcher authenticator = new CredentialsMatcher() {
             @Override
