@@ -1,6 +1,5 @@
 package com.bootstrap.interceptor;
 
-import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

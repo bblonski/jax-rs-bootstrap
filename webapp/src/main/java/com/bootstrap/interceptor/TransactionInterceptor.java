@@ -1,7 +1,6 @@
 package com.bootstrap.interceptor;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.interceptor.AroundInvoke;
@@ -13,7 +12,8 @@ import javax.persistence.EntityTransaction;
 /**
  * @author bblonski
  */
-@Transaction @Interceptor
+@Transaction
+@Interceptor
 public class TransactionInterceptor {
     @Inject
     private Logger log;
@@ -24,9 +24,9 @@ public class TransactionInterceptor {
     public Object manageTransaction(InvocationContext context) throws Exception {
         EntityTransaction tx = em.getTransaction();
         log.trace("Starting Transaction.");
-        if(!tx.isActive()) {
+        if (!tx.isActive()) {
             tx.begin();
-        }else{
+        } else {
             log.trace("Transaction already in progress.");
         }
         try {
@@ -34,7 +34,7 @@ public class TransactionInterceptor {
             log.trace("Committing Transaction.");
             tx.commit();
             return result;
-        }catch (Exception e) {
+        } catch (Exception e) {
             tx.rollback();
             log.error("Transaction failed.  Rolling back.");
             throw e;

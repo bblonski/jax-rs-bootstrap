@@ -3,9 +3,6 @@ package com.bootstrap.models;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 
 /**
  * User data model.

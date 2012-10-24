@@ -12,7 +12,6 @@ import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -52,7 +51,7 @@ public class UserService extends BaseService {
     @Path("{id}")
     @GET
     public Response getUserById(@PathParam("id") Long id) {
-        if(subject.isPermitted("user:view:" + id)) {
+        if (subject.isPermitted("user:view:" + id)) {
             return Response.ok(userPersistence.findOne(id)).build();
         }
         return Response.status(Response.Status.NOT_FOUND).entity(null).build();
