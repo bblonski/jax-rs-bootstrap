@@ -49,7 +49,7 @@ public class DBRealm extends AuthorizingRealm {
         if (user == null)
             return null;
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.addStringPermission("view:user");
+        info.addStringPermission("user:view:" + userId);
         return info;
     }
 

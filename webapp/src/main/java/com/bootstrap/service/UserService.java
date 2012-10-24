@@ -9,6 +9,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.ByteSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,8 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Response;
 import java.net.URISyntaxException;
 import java.util.List;
 
@@ -40,12 +39,23 @@ public class UserService extends BaseService {
     private UserPersistence userPersistence;
     @Inject
     private LoginService loginService;
+    @Inject
+    private Subject subject;
 
     @GET
     @Secured
-    @RequiresPermissions({"view:user"})
+    @RequiresPermissions({"user:view"})
     public List<User> getUser() {
         return userPersistence.findAll();
+    }
+
+    @Path("{id}")
+    @GET
+    public Response getUserById(@PathParam("id") Long id) {
+        if(subject.isPermitted("user:view:" + id)) {
+            return Response.ok(userPersistence.findOne(id)).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).entity(null).build();
     }
 
     @POST
